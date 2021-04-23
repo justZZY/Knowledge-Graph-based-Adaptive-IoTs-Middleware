@@ -1,0 +1,69 @@
+{
+  "name": "adaptive-iot-middleware",
+  "version": "0.1.0",
+  "description": "liquid metal calculation platform base on b/s, developed with Vue2.x",
+  "author": "SC",
+  "private": true,
+  "scripts": {
+    "s": "vue-cli-service serve",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@jiaminghi/data-view": "^2.10.0",
+    "@types/echarts": "^4.9.3",
+    "axios": "^0.21.1",
+    "core-js": "^3.8.2",
+    "echarts": "^5.0.0",
+    "el-table-infinite-scroll": "^1.0.10",
+    "element-ui": "^2.14.1",
+    "jquery": "^3.5.1",
+    "qs": "^6.9.6",
+    "video.js": "^7.11.4",
+    "vue": "^2.6.12",
+    "vue-awesome": "^4.1.0",
+    "vue-axios": "^3.2.2",
+    "vue-messagebox": "^1.0.3",
+    "vue-router": "^3.4.9",
+    "vue-seamless-scroll": "^1.1.23",
+    "vue-video-player": "^5.0.2",
+    "vuex": "^3.6.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.5.10",
+    "@vue/cli-plugin-eslint": "^4.5.10",
+    "@vue/cli-service": "^4.5.10",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.17.0",
+    "eslint-plugin-vue": "^7.4.1",
+    "mutationobserver-shim": "^0.3.7",
+    "node-sass": "^5.0.0",
+    "popper.js": "^1.16.1",
+    "portal-vue": "^2.1.7",
+    "sass-loader": "^10.1.0",
+    "vue-count-to": "^1.0.13",
+    "vue-particles": "^1.0.9",
+    "vue-template-compiler": "^2.6.12"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true,
+      "jquery": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
