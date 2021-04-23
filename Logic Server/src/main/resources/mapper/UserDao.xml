@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sewage.springboot.dao.UserDao">
+
+    <select id="countUser" resultType="Integer">
+        SELECT count(0)
+        FROM user u
+    </select>
+<!--暂时用不到resultMap组件做数据匹配_(:з」∠)_-->
+<!--    <resultMap id="userMap" type="com.sewage.springboot.util.model.One2Many">-->
+<!--        <id column="userId" property="userId"/>-->
+<!--        <result column="username" property="username"/>-->
+<!--        <result column="roleId" property="roleId"/>-->
+<!--        <result column="roleName" property="roleName"/>-->
+<!--        <result column="deleteStatus" property="deleteStatus"/>-->
+<!--        <collection property="permissionList" ofType="String">-->
+<!--            <id column="permissionName" property="permissionName"/>-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+    <select id="listUser" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT username, delete_status, identity, area, phone, mail
+        FROM user u, permission p
+        WHERE u.pid = p.pid
+    </select>
+
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO user
+        (username, password, salt, delete_status, pid, area, phone, mail) VALUES
+            (#{username}, #{password}, #{salt}, #{delete_status}, #{pid}, #{area}, #{phone}, #{mail})
+    </insert>
+
+    <update id="updateUser">
+        UPDATE user
+        SET
+        <if test="password !='' and password !=null">
+            password = #{password},
+            salt = #{salt},
+        </if>
+        area = #{area},
+        pid = #{pid},
+        mail = #{mail},
+        phone = #{phone}
+        WHERE username = #{username}
+    </update>
+
+    <update id="frozenUser">
+        UPDATE user
+        SET delete_status = #{deleteStatus}
+        WHERE username = #{username}
+    </update>
+
+    <delete id="removeUser">
+        DELETE FROM user
+        WHERE username = #{username}
+    </delete>
+
+    <resultMap id="roleMap" type="com.sewage.springboot.util.model.One2Many">
+        <id column="roleId" property="roleId"/>
+        <result column="roleName" property="roleName"/>
+        <collection property="users" ofType="com.alibaba.fastjson.JSONObject">
+            <id column="userId" property="userId"/>
+            <result column="username" property="username"/>
+        </collection>
+        <collection property="menus" ofType="com.sewage.springboot.util.model.One2Many">
+            <id column="menuCode" property="menuCode"/>
+            <result column="menuName" property="menuName"/>
+            <collection property="permissions" ofType="com.alibaba.fastjson.JSONObject">
+                <id column="permissionId" property="permissionId"/>
+                <result column="permissionName" property="permissionName"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="listRole" resultMap="roleMap">
+        SELECT
+            r.id              roleId,
+            r.role_name       roleName,
+            u.id              userId,
+            u.username        userName,
+            p.id              permissionId,
+            p.menu_code       menuCode,
+            p.menu_name       menuName,
+            p.permission_name permissionName
+        FROM sys_role r
+            LEFT JOIN sys_user u ON r.id = u.role_id AND u.delete_status = '1'
+            LEFT JOIN sys_role_permission rp ON r.id = rp.role_id AND rp.delete_status = '1'
+            LEFT JOIN sys_permission p ON rp.permission_id = p.id
+        WHERE r.delete_status = '1'
+        ORDER BY r.id, p.id
+    </select>
+    <resultMap id="permissionMap" type="com.sewage.springboot.util.model.One2Many">
+        <id column="menuName" property="menuName"/>
+        <collection property="permissions" ofType="com.alibaba.fastjson.JSONObject">
+            <id column="id" property="id"/>
+            <result column="permissionName" property="permissionName"/>
+            <result column="requiredPerm" property="requiredPerm" javaType="Integer"/>
+        </collection>
+    </resultMap>
+    <select id="listAllPermission" resultMap="permissionMap">
+        SELECT
+            p.id                  id,
+            p.menu_name           menuName,
+            p.permission_name     permissionName,
+            p.required_permission requiredPerm
+        FROM sys_permission p;
+    </select>
+
+    <insert id="insertRole" useGeneratedKeys="true" keyProperty="roleId">
+        INSERT INTO sys_role
+        (role_name)
+        VALUES (#{roleName})
+    </insert>
+
+    <insert id="insertRolePermission">
+        insert into sys_role_permission (role_id, permission_id)
+        values
+        <foreach collection="permissions" item="item" index="index" separator=",">
+            (#{roleId}, #{item})
+        </foreach>
+    </insert>
+
+    <resultMap id="aRole" type="com.sewage.springboot.util.model.One2Many">
+        <id column="roleId" property="roleId"/>
+        <result column="roleName" property="roleName"/>
+        <collection property="users" ofType="com.alibaba.fastjson.JSONObject">
+            <id column="userId" property="userId"/>
+        </collection>
+        <collection property="permissionIds" ofType="Integer">
+            <id column="permissionId" property="permissionId"/>
+        </collection>
+    </resultMap>
+    <select id="getRoleAllInfo" resultMap="aRole">
+        SELECT
+            r.id        roleId,
+            r.role_name roleName,
+            u.id        userId,
+            p.id        permissionId
+        FROM sys_role r
+            LEFT JOIN sys_user u ON r.id = u.role_id AND u.delete_status = '1'
+            LEFT JOIN sys_role_permission rp ON r.id = rp.role_id AND rp.delete_status = '1'
+            LEFT JOIN sys_permission p ON rp.permission_id = p.id
+        WHERE r.id = #{roleId}
+    </select>
+
+    <update id="removeRole">
+        UPDATE sys_role
+        SET
+            delete_status = '2'
+        WHERE id = #{roleId} and id !=1
+    </update>
+    <update id="removeRoleAllPermission">
+        UPDATE sys_role_permission
+        SET
+            delete_status = '2'
+        WHERE role_id = #{roleId}
+    </update>
+
+    <update id="removeOldPermission">
+        UPDATE sys_role_permission
+        SET
+        delete_status = '2'
+        WHERE role_id = #{roleId}
+        AND permission_id in (
+        <foreach collection="permissions" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </update>
+    <update id="updateRoleName">
+        UPDATE sys_role
+        SET
+            role_name = #{roleName}
+        WHERE id = #{roleId}
+    </update>
+    <select id="queryExistUsername" resultType="int">
+        select count(0)
+         from user
+         WHERE username=#{username};
+    </select>
+    
+    <select id="queryUserByName" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT username, delete_status, identity, area, phone, mail
+        FROM user u, permission p
+        WHERE u.pid = p.pid and u.username = #{username}
+    </select>
+    
+    <select id="queryUserByPhone" parameterType="java.lang.String" resultType="com.alibaba.fastjson.JSONObject">
+        select username, delete_status, identity, area, phone, mail 
+        from user u inner join permission p 
+        on u.pid = p.pid 
+		where u.phone = #{phone}
+    </select>
+</mapper>

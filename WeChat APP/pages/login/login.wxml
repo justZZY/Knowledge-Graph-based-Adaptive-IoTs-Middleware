@@ -1,0 +1,23 @@
+<!--pages/login/login.wxml-->
+
+
+
+<view wx:if="{{isHide}}">
+    <view wx:if="{{canIUse}}">
+        <view class='header'>
+            <image src='/images/icon.png' ></image>
+        </view>
+
+        <view class='content'>
+            <text decode='true'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;中贸智慧水务服务平台利用物联网与大数据技术，结合农村污水处理工艺，提出了基于知识图谱服务的村镇污水处理站物联系统这一解决方案。</text>
+            <view style="margin-top:50rpx;color:FireBrick;font-weight: bold;">本小程序用于专业用途，普通用户请勿登录。</view>
+            <!-- <view style="margin-top:50rpx">申请获取以下权限</view>
+            <text>获得你的公开信息(昵称，头像等)</text> -->
+        </view>
+
+        <button class='bottom' type='primary' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="bindGetUserInfo">
+            授权登录
+        </button>
+    </view>
+    <view wx:else>请升级微信版本</view>
+</view>

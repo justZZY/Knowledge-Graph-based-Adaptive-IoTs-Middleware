@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/siteMap/siteMap",
+    "pages/bindAccount/bindAccount",
+    "pages/equipmentControl/equipmentControl",
+    "pages/siteStatistics/siteStatistics",
+    "pages/jobCheck/jobCheck"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "Weixin",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#a9b7b7",
+    "selectedColor": "#04BE02",
+    "borderStyle": "black",
+    "list": [
+      {
+        "selectedIconPath": "images/dibiao.png",
+        "iconPath": "images/dibiao_off.png",
+        "pagePath": "pages/siteMap/siteMap",
+        "text": "站点地图"
+      },
+      {
+        "selectedIconPath": "images/shuju_on.png",
+        "iconPath": "images/shuju_off.png",
+        "pagePath": "pages/siteStatistics/siteStatistics",
+        "text": "站点监测"
+      },
+      {
+        "selectedIconPath": "images/controlOn.png",
+        "iconPath": "images/controlOff.png",
+        "pagePath": "pages/equipmentControl/equipmentControl",
+        "text": "设备控制"
+      },
+      {
+        "selectedIconPath": "images/qingdan.png",
+        "iconPath": "images/qingdan_off.png",
+        "pagePath": "pages/jobCheck/jobCheck",
+        "text": "工单巡检"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
+  },
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,348 @@
+/* pages/siteStatistics/siteStatistics.wxss */
+
+.content {
+  padding: 30rpx;
+}
+
+.card {
+  padding: 20rpx;
+  border: 3rpx solid white;
+  border-radius: 20rpx;
+  background-color: white;
+}
+
+.video{
+  width: 100%;
+}
+
+.title {
+  font-size: large;
+  font-weight: bold;
+}
+
+.state {
+  font-size: medium;
+  font-weight: lighter;
+  
+}
+
+.warning {
+  font-style: italic;
+  font-size: large;
+  font-weight: lighter;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pageTwo .swiperClass {
+  margin: 0;
+  margin-top: 10px;
+}
+
+.pageTwo .slide-image {
+  width: 100%;
+  height: 95%;
+  border-radius: 0px;
+  position: relative;
+  box-shadow: 0 0 10rpx grey
+}
+
+.pageTwo image.active {
+  transform: none;
+  transition: all 0.2s ease-in 0s;
+}
+
+.pageTwo image.quiet {
+  transform: scale(0.8333333);
+  transition: all 0.2s ease-in 0s;
+}
+
+
+
+/*分割线样式*/
+/* .divLine{
+  margin-top: 10px;
+  background: lightgrey;
+  width: 100%;
+  height: 5rpx;
+ } */
+
+
+ec-canvas {
+  height: 100%;
+  width: 100%;
+}
+
+
+.echartsLineView {
+  position: relative;
+  height: 1000rpx;
+  width: 100%;
+  padding-top: 30rpx;
+} 
+
+
+.echartsBarView {
+  position: relative;
+  height: 600rpx;
+  width: 100%;
+  padding-top: 30rpx;
+} 
+
+/* .list{
+  width: 100%;
+  margin-top: 36rpx;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+} */
+
+.list-item{
+  display: flex;
+  flex-direction: column;
+  /* border: 3rpx solid #04BE02;
+  border-radius: 10rpx; */
+  padding: 10rpx;
+  margin-top: 20rpx
+}
+
+.list .name{
+  margin:20rpx 0 10rpx 20rpx;
+  align-self: flex-start;
+  flex: 1 0 auto;
+  font-weight : 600;
+  /* font-size: larger; */
+  font-stretch:condensed;
+}
+
+.list .date{
+  font-style:normal;
+  font-size: normal;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20rpx;
+}
+
+.bindList{
+  display: flex;
+  flex-direction: row;
+  padding: 10rpx;
+  
+}
+
+
+play-body-button {
+  margin: 0 auto;
+  width: 90%;
+}
+
+
+.toast-box {
+
+  width: 100%;
+
+  height: 100%;
+
+  opacity: 1;
+
+  position: fixed;
+
+  top: 0px;
+
+  left: 0px;
+
+}
+
+
+
+
+
+.toastbg {
+
+  opacity: 0.2;
+
+  background-color: black;
+
+  position: absolute;
+
+  width: 100%;
+
+  min-height: 100vh;
+
+}
+
+
+
+.showToast {
+
+  position: absolute;
+
+  opacity: 1;
+
+  width: 70%;
+
+  margin-left: 15%;
+
+  margin-top: 40%;
+
+}
+
+
+
+.toast-title {
+
+  padding-left: 5%;
+
+  background-color: #04BE02;
+
+  color: white;
+
+  padding-top: 2vh;
+
+  padding-bottom: 2vh;
+
+  /* border-top-right-radius: 16rpx;
+
+  border-top-left-radius: 16rpx; */
+
+}
+
+
+
+.toast-main {
+
+  padding-top: 2vh;
+
+  padding-bottom: 2vh;
+
+  background-color: white;
+
+  text-align: center;
+
+}
+
+
+
+.toast-input {
+
+  /* margin-left: 5%;
+
+  margin-right: 5%; */
+
+  border: 1px solid #ddd;
+
+  padding-left: 2vh;
+
+  padding-right: 2vh;
+
+  padding-top: 1vh;
+
+  padding-bottom: 1vh;
+
+}
+
+
+
+.toast-button {
+
+  display: flex;
+  flex-direction: row;
+}
+
+.monitor{
+  display: flex;
+  flex-direction: row;
+}
+
+.mini-btn{
+  margin-right: 10rpx;
+}
+
+
+.divLine {
+  background: rgb(80, 80, 80);
+  width: 100%;
+  height: 5rpx;
+  margin-bottom: 20rpx;
+}
+
+/*
+ 页面左右留白
+ */
+.pageSpace {
+  margin-top: 5%;
+  /* margin-left: 5%;
+  margin-right: 5%; */
+}
+
+/*
+ 表格纵向滑动条
+ */
+.table-wrap {
+  height: 400rpx;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+/* 表格代码   */
+.table {
+  border: 1px solid #dddddd;
+  border-right: 0;
+  border-bottom: 0;
+  width: 98%;
+  margin-left: 1%;
+}
+
+.tr {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  height: 3rem;
+  align-items: center;
+}
+
+.td {
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+  color: #4f4f4f;
+  display: flex;
+  font-size: 25rpx;
+  height: 99%;
+  border-bottom: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+}
+
+/*
+ 用于列表隔行的颜色变化
+ */
+.tdColor {
+  background: #f7f7f7;
+}
+
+/*
+ 表头颜色
+ */
+.thColor {
+  background: #eff3f5;
+}
+
+.th {
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+  color: #4f4f4f;
+  display: flex;
+  height: 99%;
+  font-weight: 600;
+  border-bottom: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+}
+
+/*
+ 用于列表隔行的颜色变化
+*/
+.tdColor {
+  background: #f7f7f7;
+}

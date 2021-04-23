@@ -1,0 +1,549 @@
+<!--pages/jobCheck/jobCheck.wxml-->
+<view wx:if="{{!addListShow}}">
+  <view class='content'>
+    <view wx:if="{{page == 'list'}}">
+      <view class="search-box" bindtap="showAddList">
+        <view class="shu"></view>
+        <view class="placeholder">请输入工单类型</view>
+      </view>
+
+
+      <view style="padding-top:2%;justify-content:space-between" class="row">
+        <select id='sltJobType' style="width: {{currentUser.identity=='admin'?'60%':'70%'}}" class='selectCSS' prop-array='{{selectJobType}}' bind:selectTap='selectTap' />
+        <image wx:if="{{currentUser.identity=='admin'}}" src="/images/autoJob.png" style="width:70rpx;height:70rpx;" bindtap='clickAutoJobIcon'></image>
+        <button bindtap="bindCreateJob" style="background-color:#04BE02;color: white;">创建工单</button>
+      </view>
+    </view>
+
+
+
+
+    <!-- 工单列表显示 -->
+    <view wx:if="{{page=='list'}}">
+      <scroll-view id="scrollItem" bindscrolltolower="myOnReachBottom" lower-threshold="20"
+        bindscrolltoupper="myOnReachUpper" upper-threshold="20" scroll-into-view="{{toView}}" class='scrollView'
+        style="margin-top:15rpx" scroll-y>
+        <!-- admin 工单列表 -->
+        <view id='id{{jobKey}}' wx:if="{{currentUser.identity=='admin'}}" wx:for="{{jobList}}" wx:for-item='jobItem'
+          wx:for-index='jobKey' data-job='{{jobItem}}' bindtap="showDetail">
+          <view class="card">
+            <view class="row" style="margin-top:0%">
+              <text class='txtLeft' style="width:20%;font-weight: bold;">类型</text>
+              <text class='txtLeft'>{{jobItem.jobTypeName==''?'无':jobItem.jobTypeName}}</text>
+              <view class="txtRight">
+                <text wx:if="{{statusMapper[jobItem.status]==null}}" class="txtLevel"
+                  style="background-color:grey">无</text>
+                <text wx:if="{{statusMapper[jobItem.status]=='待确认/分派'}}" class="txtLevel"
+                  style="background-color:LightGrey;width:200rpx">{{statusMapper[jobItem.status]}}</text>
+                <text wx:if="{{statusMapper[jobItem.status]=='处理中'}}" class="txtLevel"
+                  style="background-color:LightBlue">{{statusMapper[jobItem.status]}}</text>
+                <text wx:if="{{statusMapper[jobItem.status]=='审核中'}}" class="txtLevel"
+                  style="background-color:LightSkyBlue">{{statusMapper[jobItem.status]}}</text>
+                <text wx:if="{{statusMapper[jobItem.status]=='处理成功'}}" class="txtLevel"
+                  style="background-color:MediumSeaGreen">{{statusMapper[jobItem.status]}}</text>
+                <text wx:if="{{statusMapper[jobItem.status]=='处理中断'}}" class="txtLevel"
+                  style="background-color:OrangeRed">{{statusMapper[jobItem.status]}}</text>
+              </view>
+            </view>
+            <view style="width:85%;">
+              <text class='txtLeft' style="width:20%;font-weight: bold;">站点</text>
+              <text class='txtLeft'>{{jobItem.site}}</text>
+            </view>
+            <view style="width:85%;">
+              <text class='txtLeft' style="width:20%;font-weight: bold;">时间</text>
+              <text class='txtLeft'>{{jobItem.updateTime}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 非admin 非历史工单列表 -->
+        <view id='id{{jobKey}}' wx:if="{{currentUser.identity!='admin' && queryJobType!='finished'}}"
+          wx:for="{{jobList}}" wx:for-item='jobItem' wx:for-index='jobKey' data-job='{{jobItem}}' bindtap="showDetail">
+          <view class="card">
+            <view class="row" style="margin-top:0%">
+              <text class='txtLeft' style="width:20%;font-weight: bold;">类型</text>
+              <text class='txtLeft'>{{jobItem.jobTypeName==''?'无':jobItem.jobTypeName}}</text>
+
+              <view class='txtRight'>
+                <text wx:if="{{jobItem.priority==null}}" class="txtLevel" style="background-color:grey">无</text>
+                <text wx:if="{{jobItem.priority=='一般'}}" class="txtLevel"
+                  style="background-color:Teal">{{jobItem.priority}}</text>
+                <text wx:if="{{jobItem.priority=='紧急'}}" class="txtLevel"
+                  style="background-color:red">{{jobItem.priority}}</text>
+                <text wx:if="{{jobItem.priority=='非常紧急'}}" class="txtLevel"
+                  style="background-color:FireBrick">{{jobItem.priority}}</text>
+              </view>
+            </view>
+
+            <view style="width:85%;">
+              <text class='txtLeft' style="width:20%;font-weight: bold;">站点</text>
+              <text class='txtLeft'>{{jobItem.site}}</text>
+            </view>
+            <view style="width:85%;">
+              <text class='txtLeft' style="width:20%;font-weight: bold;">时间</text>
+              <text class='txtLeft'>{{jobItem.updateTime}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 非admin 历史工单列表 -->
+        <view id='id{{jobKey}}' wx:if="{{currentUser.identity!='admin' && queryJobType=='finished'}}"
+          wx:for="{{jobList}}" wx:for-item='jobItem' wx:for-index='jobKey' data-job='{{jobItem}}' bindtap="showDetail">
+          <view class="card">
+            <view class="row" style="margin-top:0%">
+              <text class='txtLeft' style="width:20%;font-weight: bold;">类型</text>
+              <text class='txtLeft'>{{jobItem.jobTypeName==''?'无':jobItem.jobTypeName}}</text>
+
+              <view class="txtRight">
+                <text class="txtLevel"
+                  style="background-color:{{statusMapper[jobItem.status]=='处理成功'?'MediumSeaGreen':'OrangeRed'}}">{{statusMapper[jobItem.status]}}</text>
+              </view>
+            </view>
+            <view style="width:85%;">
+              <text class='txtLeft' style="width:20%;font-weight: bold;">站点</text>
+              <text class='txtLeft'>{{jobItem.site}}</text>
+            </view>
+            <view style="width:85%;">
+              <text class='txtLeft' style="width:20%;font-weight: bold;">时间</text>
+              <text class='txtLeft'>{{jobItem.updateTime}}</text>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+
+
+
+    <view wx:elif="{{page=='detail'}}">
+
+      <view class="detailPage">
+        <scroll-view class='scrollDetailView' scroll-y>
+          <view class="row" style="margin-top:0%">
+            <button style="font-size:30rpx;height:60rpx;line-height:60rpx" bindtap="tapBack">返回</button>
+            <text class="txtLevelDetail"
+              style="font-size:30rpx;flex:1;background-color:#04BE02;width:250rpx;margin-left: 5%;height:60rpx;line-height:60rpx">{{statusMapper[jobDetail.status]}}</text>
+          </view>
+
+
+
+          <!-- 工单详情显示 -->
+          <view style="margin-top:3%" class="box">
+
+            <text class="sonTitle" style="font-weight:bolder;font-size:40rpx;">工单详情</text>
+
+            <!-- 间隔 -->
+            <view style="height:30rpx"></view>
+
+            <view class="row">
+              <view style="width:47%">
+                <text class="sonTitle" style="width:auto">严重度：</text>
+                <text class="txtLevelDetail"
+                  style="background-color:{{jobDetail.severity=='一般'?'Teal':jobDetail.severity=='严重'?'red':'FireBrick'}}">{{jobDetail.severity}}</text>
+              </view>
+              <view style="width:47%;margin-left:6%">
+                <text class="sonTitle" style="width:50%">优先级：</text>
+                <text class="txtLevelDetail"
+                  style="background-color:{{jobDetail.priority=='一般'?'Teal':(jobDetail.priority=='紧急'?'red':'FireBrick')}}">{{jobDetail.priority}}</text>
+              </view>
+            </view>
+
+            <view class="splitLine"></view>
+
+            <view class='row'>
+              <text class="sonTitle">问题类别：</text>
+              <textarea style="text-align:right;" value="{{jobDetail.jobTypeName}}" auto-height="true"
+                disabled="true" />
+              </view>
+          
+          <view class="splitLine"></view>
+
+          <view class='row'>
+            <text class="sonTitle">问题描述：</text>
+            <textarea style="text-align:right;" value="{{jobDetail.content}}" auto-height="true" disabled="true"/>
+          </view>
+          
+          <view class="splitLine"></view>
+
+          <view class='row'>
+            <text class="sonTitle">故障站点：</text>
+            <textarea style="text-align:right;" value="{{jobDetail.site}}" auto-height="true" disabled="true"/>
+          </view>
+          
+          <view class="splitLine"></view>
+
+          <view class='row'>
+            <text class="sonTitle">站点地址：</text>
+            <textarea style="text-align:right;" value="{{jobDetail.siteAddr}}" auto-height="true" disabled="true"/>
+          </view>
+          
+          <view class="splitLine"></view>
+
+          <view class='row'>
+            <text class="sonTitle" style="width:70%">期望解决时间：</text>
+            <textarea style="text-align:right;" value="{{jobDetail.expectedTime}}小时内" auto-height="true" disabled="true"/>
+          </view>
+          
+          <view class="splitLine"></view>
+
+
+          <view class='pageBox pageTwo'>
+            <text class="sonTitle">附件：</text>
+            <swiper wx:if="{{createProcess!='' && createProcess.file!='' && createProcess.file!=null}}" class='swiperClass' autoplay indicator-color="#a39f99" indicator-active-color="#f49641" indicator-dots
+              interval="5000" duration="1000" previous-margin="60px" next-margin="60px" circular bindchange="bindchange"
+              style='height: {{swiperHeight}}px'>
+              <block wx:for="{{createProcess.file}}" wx:for-item='item'>
+                <swiper-item>
+                  <image src="http://43.228.77.195:8082/file/download/{{item}}" class="slide-image {{swiperIdx == index ? 'active' : 'quiet'}}" mode='aspectFill'>
+                  </image>
+                </swiper-item>
+              </block>
+            </swiper>
+            <view wx:else style="text-align:center;font-size:36rpx">无</view>
+          </view>
+          
+          <view class="splitLine"></view>
+
+
+          <view class='row'>
+            <text class="sonTitle">联系邮箱：</text>
+            <textarea style="text-align:right;" value="{{jobDetail.email}}" auto-height="true" disabled="true" />
+          </view>
+          
+          <view class="splitLine"></view>
+
+          <view class='row'>
+            <text class="sonTitle">联系电话：</text>
+            <textarea style="text-align:right;" value="{{jobDetail.telephone}}" auto-height="true" disabled="true"/>
+          </view>
+          
+          <view class="splitLine"></view>
+
+          <view wx:if="{{jobDetail.creator!=''}}" class='row'>
+            <text class="sonTitle">创建人：</text>
+            <textarea style="text-align:right;" value="{{jobDetail.creator}}" auto-height="true" disabled="true"/>
+          </view>
+          
+          <view class="splitLine"></view>
+
+          <view wx:if="{{jobDetail.processor!=''}}" class='row'>
+            <text class="sonTitle">处理人：</text>
+            <textarea style="text-align:right;" value="{{jobDetail.processor}}" auto-height="true" disabled="true"/>
+          </view>
+          
+          <view class="splitLine"></view>
+
+          <view wx:if="{{jobDetail.inspector!=''}}" class='row'>
+            <text class="sonTitle">审核人：</text>
+            <textarea style="text-align:right;" value="{{jobDetail.processor}}" auto-height="true" disabled="true"/>
+          </view>
+        </view>
+        <!-- end工单详情显示 -->
+
+        <!-- 处理结果显示 -->
+        <view wx:if="{{jobDetail.status>=4 && resultProcessed!='' && resultProcessed!=null && resultProcessed!=undefined}}" style="margin-top:5%" class="box">
+          <text class="sonTitle" style="font-weight:bolder;font-size:40rpx;">处理结果</text>
+
+          <!-- 间隔 -->
+          <view style="height:30rpx"></view>
+
+          <view class='row'>
+            <text class="sonTitle">处理人：</text>
+            <textarea style="text-align:right;" value="{{resultProcessed.username}}" auto-height="true" disabled="true"/>
+          </view>
+
+          <view class="splitLine"></view>
+
+          <view class='row'>
+            <text class="sonTitle">结果说明：</text>
+            <textarea style="text-align:right;" value="{{resultProcessed.remark}}" auto-height="true" disabled="true"/>
+          </view>
+
+          <view class="splitLine"></view>
+
+          <view class='pageBox pageTwo'>
+            <text class="sonTitle">附件：</text>
+            <swiper wx:if="{{resultProcessed!='' && resultProcessed.file!='' && resultProcessed.file!=null}}" class='swiperClass' autoplay indicator-color="#a39f99" indicator-active-color="#f49641" indicator-dots
+              interval="5000" duration="1000" previous-margin="60px" next-margin="60px" circular bindchange="bindchange"
+              style='height: {{swiperHeight}}px'>
+              <block wx:for="{{resultProcessed.file}}" wx:for-item='item'>
+                <swiper-item>
+                  <image src="http://43.228.77.195:8082/file/download/{{item}}" class="slide-image {{swiperIdx == index ? 'active' : 'quiet'}}" mode='aspectFill'>
+                  </image>
+                </swiper-item>
+              </block>
+            </swiper>
+            <view wx:else style="text-align:center;font-size:36rpx;">无</view>
+          </view>
+
+        </view>
+        <!-- end处理结果显示 -->
+
+        <!-- 审核结果显示 -->
+        <view wx:if="{{jobDetail.status>4 && resultInspected!='' && resultInspected!=null && resultInspected!=undefined}}" style="margin-top:5%" class="box">
+          <text class="sonTitle" style="font-weight:bolder;font-size:40rpx;">审核结果</text>
+
+          <!-- 间隔 -->
+          <view style="height:30rpx"></view>
+
+          <view class='row'>
+            <text class="sonTitle">审核人：</text>
+            <textarea style="text-align:right;" value="{{resultInspected.username}}" auto-height="true" disabled="true"/>
+          </view>
+          
+          <view class="splitLine"></view>
+
+          <view class='row'>
+            <text class="sonTitle">结果说明：</text>
+            <textarea style="text-align:right;" value="{{resultInspected.remark}}" auto-height="true" disabled="true"/>
+          </view>
+          
+          <view class="splitLine"></view>
+
+          <view class='pageBox pageTwo'>
+            <text class="sonTitle">附件：</text>
+            <swiper wx:if="{{resultInspected!='' && resultInspected.file!='' && resultInspected.file!=null}}" class='swiperClass' autoplay indicator-color="#a39f99" indicator-active-color="#f49641" indicator-dots
+              interval="5000" duration="1000" previous-margin="60px" next-margin="60px" circular bindchange="bindchange"
+              style='height: {{swiperHeight}}px'>
+              <block wx:for="{{resultInspected.file}}" wx:for-item='item'>
+                <swiper-item>
+                  <image src="http://43.228.77.195:8082/file/download/{{item}}" class="slide-image {{swiperIdx == index ? 'active' : 'quiet'}}" mode='aspectFill'>
+                  </image>
+                </swiper-item>
+              </block>
+            </swiper>
+            <view wx:else style="text-align:center;font-size:36rpx;">无</view>
+          </view>
+
+        </view>
+        <!-- end审核结果显示 -->
+
+
+        <!-- 派单 -->
+        <view wx:if="{{jobDetail.status==1 && currentUser.identity=='admin'}}" style="margin-top:5%" class="box">
+          <text class="sonTitle" style="font-weight:bolder;font-size:40rpx;">派单</text>
+
+          <!-- 间隔 -->
+          <view style="height:30rpx"></view>
+
+          <view class='row' style="justify-content:space-around">
+            <button style="margin-left:0" type="primary" bindtap="allocateJob" >派单</button>
+            <button style="margin-left:0" type="info" data-para="6" bindtap="submitForm" >中断</button>
+          </view>
+        </view>
+        <!-- end派单 -->
+
+        <!-- 派单modal -->
+        <modal class="modal" wx:if="{{allocateFormVisible}}" bindconfirm="allocateFormConfirm" bindcancel="allocateFormCancel">
+          <view class="card">
+            <view class="row">
+              <text style="font-size:36rpx;">选择维护人：</text>
+              <picker style="flex:1;text-align:left;" bindchange="bindPickerUsernameChange" value="{{pickerUsernameIndex}}" range="{{selectUsername}}">
+                <view class="box" wx:if="{{pickerUsernameIndex!==null}}">
+                  {{selectUsername[pickerUsernameIndex]}}
+                </view>
+                <view class="box" wx:else>请选择</view>
+              </picker>
+            </view>
+            <view class="row">
+              <text style="font-size:36rpx;">备注：</text>
+            </view>
+            <view class="row">
+              <textarea bindinput="bindAllocateRemark" value="{{allocateForm.remark}}" style="height:120rpx"/>
+            </view>
+            
+          </view>
+        </modal>
+        <!-- end派单modal -->
+
+
+        <!-- 工单完成确认 -->
+        <view wx:if="{{jobDetail.status==2 && jobDetail.processor==currentUser.username}}" style="margin-top:5%" class="box">
+          <text class="sonTitle" style="font-weight:bolder;font-size:40rpx;">工单完成确认</text>
+          
+          <!-- 间隔 -->
+          <view style="height:30rpx"></view>
+
+          <view class='row'>
+            <text class="sonTitle">结果说明：</text>
+            <textarea style="" placeholder="请输入..." bindinput="bindResult" value="{{processForm.content}}" style="text-align:right;" auto-height="true"/>
+          </view>
+          
+          <view class="splitLine"></view>
+
+
+          <text class="sonTitle">上传附件：</text>
+          <view class="contant-pic">
+            <view
+             class="pics-list" wx:for="{{photoList}}" wx:key="" >
+              <image  src="{{item}}" class="uploadImg"></image>
+              <image src="../../images/delete.png" class="uploadImg-error" data-img="{{item}}" bindtap='deleteImg'></image>
+            </view>
+            <image src="../../images/add.png" style="border: 1px solid LightGrey;margin:10rpx;" class="uploadImg {{isShow?'true':'hideTrue'}}" bindtap='chooseImage' ></image>
+          </view>
+          
+          <view class="splitLine"></view>
+
+
+          <view class='row'>
+            <button type="primary" data-para="4" bindtap="submitForm" >确认完成</button>
+          </view>
+        </view>
+        <!-- end工单完成确认 -->
+
+
+        <!-- 工单审核确认 -->
+        <view wx:if="{{jobDetail.status==4 && currentUser.identity=='admin'}}" style="margin-top:5%" class="box">
+          <text class="sonTitle" style="font-weight:bolder;font-size:40rpx;">工单审核确认</text>
+          
+          <!-- 间隔 -->
+          <view style="height:30rpx"></view>
+
+          <view class='row'>
+            <text class="sonTitle">结果说明：</text>
+            <textarea placeholder="请输入..." bindinput="bindResult" value="{{processForm.content}}" style="text-align:right;" auto-height="true"/>
+          </view>
+          
+          <view class="splitLine"></view>
+
+
+          <text class="sonTitle">上传附件：</text>
+          <view class="contant-pic">
+            <view class="pics-list" wx:for="{{photoList}}" wx:key="" >
+              <image  src="{{item}}" class="uploadImg"></image>
+              <image src="../../images/delete.png" class="uploadImg-error" data-img="{{item}}" bindtap='deleteImg'></image>
+            </view>
+            <image src="../../images/add.png" style="border: 1px solid LightGrey;margin:10rpx;" class="uploadImg {{isShow?'true':'hideTrue'}}" bindtap='chooseImage' ></image>
+          </view>
+          
+          <view class="splitLine"></view>
+
+
+          <view class='row' style="justify-content:space-around">
+            <button style="margin:0" type="primary" data-para="7" bindtap="submitForm" >驳回</button>
+            <button style="margin:0" type="primary" data-para="5" bindtap="submitForm" >审核通过</button>
+            <button style="margin:0" type="primary" data-para="6" bindtap="submitForm" >中断</button>
+          </view>
+        </view>
+        <!-- end工单审核确认 -->
+
+
+        <!-- 间隔 -->
+        <view style="height:30rpx"></view>
+
+
+      </scroll-view>
+      </view>
+    </view>
+</view>
+</view>
+
+<view wx:if="{{addListShow}}">
+  <view class="top">
+            <view class="back" bindtap="tapBack">
+                <image src="../../images/back.png"></image>
+            </view>
+            <view class="search-box {{addListShow?'search-box1':''}}">
+                <input placeholder="请输入工单类型" bindinput="getsuggest"></input>
+            </view>
+        </view>
+        <!--关键词输入提示列表渲染-->
+        <view class="add-list-box">
+            <scroll-view bindscrolltolower="mySearchOnReachBottom" lower-threshold="20" bindscrolltoupper="mySearchOnReachUpper" upper-threshold="20" scroll-into-view="{{toSearchView}}" class="add-list" scroll-y>
+                <view id='id{{jobSearchKey}}' class="add-item" wx:for="{{suggestion}}" wx:for-item='jobItem' wx:for-index="jobSearchKey" data-job='{{jobItem}}'>
+                <!--绑定回填事件-->
+                  <view bindtap="showDetail" data-job='{{jobItem}}'>
+                    <!--根据需求渲染相应数据-->
+                    <!--渲染地址title-->
+                    <view class="title">{{jobItem.jobTypeName==''?'无':jobItem.jobTypeName}}</view>
+                    <!--渲染详细地址-->
+                    <view class="add">{{jobItem.site}}</view>
+                  </view>
+                </view>
+            </scroll-view>
+        </view>
+</view>
+
+<modal wx:if="{{showAutoJobModal}}" bindconfirm="setJobSchedule" bindcancel="autoJobModalCancel">
+  <view style="justify-content:space-between" class="row">
+    <text class="sonTitle">自动派单设置</text>
+    <button bindtap="clickClear">清除</button>
+  </view>
+  
+
+  <view class="card">
+    <view style="justify-content:space-between;" class="row">
+      <text style="height: 24px;line-height: 24px;width:40%;">自动派单</text>
+      <i-switch value="{{jobConfigForm.jobSwitch}}" size="large" bind:change="setJobJobSwitch" slot="footer">
+        <view slot="true">开启</view>
+        <view slot="false">关闭</view>
+      </i-switch>
+    </view>
+    
+    <view style="align-items: center;" class="row">
+      <text style="height: 24px;line-height: 24px;width:50%;">开始时间</text>
+      <picker class="pickerCSS" bindchange="bindBeginTimePickerChange" value="{{beginTimeIndex}}" range="{{beginTimeArray}}">
+        <view style="align-items: center;justify-content: flex-end;height:40rpx" class="row">
+          <view wx:if="{{jobConfigForm.startTime==''}}" class="picker"></view>
+          <view wx:else class="picker">{{jobConfigForm.startTime}}</view>
+          <image style="float:right;margin-left:20rpx;margin-right:20rpx" src='../../images/down.png' class='com-sImg'></image>
+        </view>
+      </picker>
+      <!-- <input style="flex:1;padding: 10rpx;" bindtap="clickBeginTime"/> -->
+    </view>
+    <view class="row">
+      <text style="height: 24px;line-height: 24px;width:50%;">结束时间</text>
+      <picker class="pickerCSS" bindchange="bindEndTimePickerChange" value="{{endTimeIndex}}" range="{{endTimeArray}}">
+        <view style="align-items: center;justify-content: flex-end;" class="row">
+          <view wx:if="{{jobConfigForm.endTime==''}}" class="picker"></view>
+          <view wx:else class="picker">{{jobConfigForm.endTime}}</view>
+          <image style="float:right;margin-left:20rpx;margin-right:20rpx" src='../../images/down.png' class='com-sImg'></image>
+        </view>
+      </picker>
+      <!-- <input style="flex:1;padding: 10rpx;"/> -->
+    </view>
+    <view class="row">
+      <text style="height: 24px;line-height: 24px;width:50%;">默认严重程度</text>
+      <picker class="pickerCSS" bindchange="bindSeriousnessPickerChange" value="{{seriousnessIndex}}" range="{{seriousnessArray}}">
+        <view style="align-items: center;justify-content: flex-end;" class="row">
+          <view class="picker">
+            {{jobConfigForm.severity}}
+          </view>
+          <image style="float:right;margin-left:20rpx;margin-right:20rpx" src='../../images/down.png' class='com-sImg'></image>
+        </view>
+      </picker>
+    </view>
+    <view class="row">
+      <text style="height: 24px;line-height: 24px;width:50%;">默认优先级</text>
+      <picker class="pickerCSS" bindchange="bindPriorityPickerChange" value="{{priorityIndex}}" range="{{priorityArray}}">
+        <view style="align-items: center;justify-content: flex-end;" class="row">
+          <view class="picker">
+            {{jobConfigForm.priority}}
+          </view>
+          <image style="float:right;margin-left:20rpx;margin-right:20rpx" src='../../images/down.png' class='com-sImg'></image>
+        </view>
+        
+      </picker>
+    </view>
+  </view>
+    
+</modal>
+
+<!-- <block wx:if="{{ShowDelete}}">
+      <view class='toast-box'>
+        <view class='toastbg'></view>
+        <view class='showToast'>
+          <view class='toast-title'>
+            <text>删除监控</text>
+          </view>
+          <view class='toast-main'>
+            <view class="title">确认删除监控"{{editName}}"？</view>
+          </view>
+          <view class='toast-button'>
+            <button bindtap='cancelDelete'
+            type = "default" style="width:40vw;margin-left: 0;">取消</button>
+            <button bindtap='confirmDelete'
+            type = "primary" style="width:40vw;margin-right: 0;">确定</button>
+          </view>
+        </view>
+      </view>
+    </block> -->

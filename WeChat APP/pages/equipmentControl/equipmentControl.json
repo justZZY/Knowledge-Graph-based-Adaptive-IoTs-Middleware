@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "tab": "../../components/tab/tab",
+    "i-switch": "../../components/switch/index",
+    "i-cell": "../../components/cell/index",
+    "tag" : "../../dist/tag/index"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "tab": "../../components/tab/tab",
+    "menu": "../../components/menu/index"
+
+  }
+}

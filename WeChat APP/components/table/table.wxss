@@ -1,0 +1,40 @@
+/* components/table/table.wxss */
+.table-outer-box {
+  display: flex;
+  flex-direction: column;
+  padding: 50rpx 50rpx 0;
+  flex: 1;
+}
+
+.table {
+  height: 80rpx;
+  color: #000;
+  line-height: 80rpx;
+  border-top: 1rpx solid #fff;
+  border-bottom: 1rpx solid #000;
+  text-align: center;
+}
+
+.table-flex {
+  display: flex;
+}
+
+.table-theme {
+  font-size: 28rpx;
+}
+
+.table-item {
+  font-size: 24rpx;
+  opacity: 0.6;
+}
+
+.item {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  flex: 1;
+}
+
+.scroll-view {
+  flex: 1;
+}

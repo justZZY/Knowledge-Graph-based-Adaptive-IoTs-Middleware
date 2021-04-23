@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "select": "../../components/select/select",
+    "ec-canvas": "../../components/ec-canvas/ec-canvas",
+    "i-switch": "../../components/switch/index",
+    "i-cell": "../../components/cell/index"
+  },
+
+  "disableScroll": true
+}

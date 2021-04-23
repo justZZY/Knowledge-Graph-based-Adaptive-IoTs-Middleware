@@ -1,0 +1,169 @@
+<!--pages/jobCreate/jobCreate.wxml-->
+<view class='content'>
+
+  <view class="outCard">
+
+
+    <view style="line-height:20%" class="row">
+      <text class="sonTitle">问题分类</text>
+      <button bindtap="jobTypeSelectVisible"
+        style="background-color:#04BE02;color: white;flex:1;font-size:36rpx;">{{jobAddForm.jobTypeName==''?'请选择问题类型':jobAddForm.jobTypeName}}</button>
+    </view>
+
+    <view class="splitLine"></view>
+
+    <view style="height:9%;" class='row'>
+      <text class="sonTitle">问题描述</text>
+      <textarea class="txtArea" maxlength="0" bindinput="bindProblemDescription" placeholder="具体描述问题/故障.."
+        style="text-align:left;height:100rpx;padding:10rpx;font-size:36rpx;" />
+      </view>
+
+    <view class="splitLine"></view>
+
+    <view style="height:9%;" class='row'>
+      <text class="sonTitle">故障站点</text>
+      <view class="picker">
+        <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
+          <view class='row'>
+            <text style="font-size:36rpx;" wx:if="{{jobAddForm.site==null || jobAddForm.site==''}}">请选择</text>
+            <text style="font-size:36rpx;" wx:else>{{jobAddForm.site}}</text>
+            <image style="float:right;margin-left:20rpx" src='../../images/down.png' class='com-sImg'></image>
+          </view>
+          
+        </picker>
+      </view>
+    </view>
+
+    <view class="splitLine"></view>
+
+
+    <view style="height:9%" class='row'>
+      <text class="sonTitle">站点地址</text>
+      <input style="padding:10rpx;font-size:36rpx;" value="{{jobAddForm.siteAddr}}" />
+    </view>
+
+    <view class="splitLine"></view>
+
+    <view style="height:9%" class='row'>
+      <text class="sonTitle">严重程度</text>
+      <radio-group style="flex:1" bindchange="jobSeverityRadioChange">
+        <view class='row' style="justify-content:space-around">
+          <view class="row" style="width:28%">
+            <radio value="一般" checked="true"/>
+            <view style="font-size:36rpx;" class="weui-cell__bd">一般</view>
+          </view>
+          
+          <view class="row" style="width:28%">
+            <radio value="严重"/>
+            <view style="font-size:36rpx;" class="weui-cell__bd">严重</view>
+          </view>
+
+          <view class="row" style="width:44%">
+            <radio value="非常严重"/>
+            <view style="font-size:36rpx;" class="weui-cell__bd">非常严重</view>
+          </view>
+        </view>
+      </radio-group>
+    </view>
+
+    <view class="splitLine"></view>
+
+    <view style="height:9%" class='row'>
+      <text class="sonTitle">工单优先级</text>
+      <radio-group style="flex:1" bindchange="jobPriorityRadioChange">
+        <view class='row'>
+          <view class="row" style="width:28%">
+            <radio value="一般" checked="true"/>
+            <view style="font-size:36rpx;" class="weui-cell__bd">一般</view>
+          </view>
+
+          <view class="row" style="width:28%">
+            <radio value="紧急"/>
+            <view style="font-size:36rpx;" class="weui-cell__bd">紧急</view>
+          </view>
+
+          <view class="row" style="width:44%">
+            <radio value="非常紧急"/>
+            <view style="font-size:36rpx;" class="weui-cell__bd">非常紧急</view>
+          </view>
+        </view>
+      </radio-group>
+    </view>
+
+    <view class="splitLine"></view>
+
+    <view style="height:9%" class='row'>
+      <text class="sonTitle" style="width:50%">期望解决时间(小时)</text>
+      <input style="text-align:right;padding:10rpx;font-size:36rpx;" value="{{jobAddForm.expectedTime}}" />
+    </view>
+
+    <view class="splitLine"></view>
+
+
+    <text class="sonTitle">上传附件</text>
+    <view class="contant-pic">
+      <view class="pics-list" wx:for="{{photoList}}" >
+        <image  src="{{item}}" class="uploadImg"></image>
+        <image src="../../images/delete.png" class="uploadImg-error" data-img="{{item}}" bindtap='deleteImg'></image>
+      </view>
+      <image src="../../images/add.png" style="border: 1px solid LightGrey;margin:10rpx;" class="uploadImg {{isShow?'true':'hideTrue'}}" bindtap='chooseImage' ></image>
+    </view>
+
+    <view class="splitLine"></view>
+
+    <view class="row" style="justify-content:flex-end;align-items: right;">
+      <button type="primary" style="margin-right:0;font-size:30rpx" bindtap="submitForm" >立即创建</button>
+    </view>
+    
+
+
+
+
+
+
+
+
+
+    <!-- 问题分类modal -->
+    <modal class="modal" wx:if="{{problemTypeFormVisible}}" bindconfirm="problemTypeFormConfirm" bindcancel="problemTypeFormCancel">
+      <view class="swiper-tab">
+        <view wx:for="{{jobTypeListJson}}" wx:for-item='item' wx:for-index='index'>
+          <view class="swiper-tab-list {{currentTab['value']==index ? 'on' : ''}}" data-current="{{index}}" bindtap="swichNav">
+            {{index}}
+          </view>
+        </view>
+        <view class="swiper-tab-list {{currentTab['value']=='自定义问题类别' ? 'on' : ''}}" data-current="自定义问题类别" bindtap="swichLastNav">自定义问题类别</view>
+      </view>
+
+      <view>
+        <swiper current="{{currentTab['index']}}" class="swiper-box" duration="300" style="height:{{winHeight - 300}}px" bindchange="bindChange">
+
+          <view wx:for="{{jobTypeListJson}}" wx:for-item='item'>
+            <swiper-item>
+              <scroll-view class='scrollView' scroll-y>
+                <!-- 问题分类列举 -->
+                <radio-group class="swiperContent" bindchange="problemTypeRadioChange">
+                  <view wx:for="{{item}}" wx:for-item='it' class="card">
+                    <radio value="{{it.jobTypeName}}"/>
+                    <text style="color:white;font-size:14px">{{it.jobTypeName}}</text>
+                  </view>
+                </radio-group>
+              </scroll-view>
+            </swiper-item>
+          </view>
+
+          <swiper-item>
+            <textarea bindinput="bindSelfProblemType" class="swiperTextArea" value="{{jobAddForm.jobTypeName}}"></textarea>
+        </swiper-item>
+        </swiper>
+      </view>
+
+    </modal>
+    <!-- end 问题分类modal -->
+
+
+
+
+  </view>
+
+</view>

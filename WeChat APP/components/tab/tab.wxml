@@ -1,0 +1,8 @@
+<!--components/tab/tab.wxml-->
+
+<view class="bottomTabSwiper">
+  <view class="tab {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">站点地图</view>
+  <view class="tab {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">站点统计</view>
+  <view class="tab {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="swichNav">设备控制</view>
+  <view class="tab {{currentTab==3 ? 'on' : ''}}" data-current="3" bindtap="swichNav">工单巡检</view>
+</view>

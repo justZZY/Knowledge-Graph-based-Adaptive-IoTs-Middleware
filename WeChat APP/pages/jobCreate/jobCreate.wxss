@@ -1,0 +1,253 @@
+/* pages/jobCreate/jobCreate.wxss */
+
+
+.content {
+  padding: 30rpx;
+}
+
+.outCard{
+  height: fit-content;
+  padding: 20rpx;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.splitLine {
+  background-color: LightGrey;
+  width: 100%;
+  height: 3rpx;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: row;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.sonTitle {
+  width: 30%;
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+
+
+input {
+  border: lightgrey;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10rpx;
+  text-align: left;
+  flex: 1;
+}
+
+/* textarea {
+  border: lightgrey;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10rpx;
+  float: right;
+  margin-left: auto;
+  padding: 5rpx;
+  flex: 1;
+} */
+
+.txtArea{
+  border: lightgrey;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10rpx;
+  float: right;
+  margin-left: auto;
+  padding: 5rpx;
+  flex: 1;
+  /* box-sizing: border-box; */
+}
+
+
+.picker {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+
+.com-sImg {
+  /* position: absolute;
+  right: 10px; */
+  /* top: 11px; */
+  width: 16px;
+  height: 9px;
+  transition: all .3s ease;
+}
+
+
+
+
+
+
+
+.contant-pic {
+  width: 100%;
+  margin-top: 20rpx;
+  /* margin: 0 auto; */
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+
+}
+
+.pics-list {
+  width: 73px;
+  height: 73px;
+  float: left;
+  margin: 10rpx;
+
+}
+
+.uploadImg {
+  width: 70px;
+  height: 70px;
+}
+
+.uploadImg-error {
+  height: 15px;
+  width: 15px;
+  position: relative;
+  top: -75px;
+  left: 55px;
+}
+
+.hideTrue {
+  display: none
+}
+
+.true {
+  display: block
+}
+
+
+
+
+/* modal相关 */
+.swiper-tab {
+  width: 100%;
+  text-align: center;
+  line-height: 60rpx;
+  display: flex;
+  justify-content: space-between;
+  /* align-content: center; */
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.swiper-tab-list {
+  /* width: 30%; */
+  font-size: 14px;
+  color: #777777;
+}
+
+.on {
+  color: skyblue;
+  border-bottom: 3rpx solid skyblue;
+}
+
+.swiper-box {
+  display: block;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  margin-top: 20rpx;
+}
+
+.swiper-box view {
+  text-align: center;
+}
+
+
+.swiperContent{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+
+.card {
+  height: 70rpx;
+  width: 45%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  border-radius: 20rpx;
+  background-color: DarkCyan;
+  padding: 10rpx;
+  margin-top: 10rpx;
+}
+
+
+.swiperTextArea{
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border: lightgrey;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10rpx;
+}
+
+
+
+.scrollView {
+  /* margin-top: 20rpx; */
+  /* height: 600rpx; */
+  /* height:40vh; */
+  height: inherit;
+  overflow: auto;
+}
+
+
+
+
+
+
+
+
+/* 单选按钮样式*/
+/* 默认背景样式*/
+radio .wx-radio-input{
+  width: 30rpx;
+  height: 30rpx;
+}
+
+/* 选中后的 背景样式 */
+radio .wx-radio-input.wx-radio-input-checked{
+  width: 30rpx; /* 选中后对勾大小，不要超过背景的尺寸 */
+  height: 30rpx; /* 选中后对勾大小，不要超过背景的尺寸 */
+  border: none;
+  background: skyblue;
+}
+/* 选中后的 对勾样式 */
+radio .wx-radio-input.wx-radio-input-checked::before{
+  border-radius: 50%;/* 圆角 */
+  width: 30rpx; /* 选中后对勾大小，不要超过背景的尺寸 */
+  height: 30rpx; /* 选中后对勾大小，不要超过背景的尺寸 */
+  line-height: 30rpx;
+  text-align: center;
+  font-size:25rpx; /* 对勾大小 */
+  color:#fff; /* 对勾颜色 */
+  border: 1rpx solid skyblue;
+  background: skyblue;
+  transform:translate(-50%, -50%) scale(1);
+  -webkit-transform:translate(-50%, -50%) scale(1);
+}

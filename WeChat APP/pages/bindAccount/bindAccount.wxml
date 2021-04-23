@@ -1,0 +1,19 @@
+<!--pages/bindAccount/bindAccount.wxml-->
+<view class="content">
+  <image class='background' src="../../images/bg2.jpeg" mode="aspectFill"></image>
+  <view class="item">
+    <view class="login-item">
+      <view class="login-item-info">账号</view>
+      <view><input style="color:white" bindinput="usernameInput" /></view>
+    </view>
+    <view class="login-item">
+      <view class="login-item-info">密码</view>
+      <view class="login-pwd">
+        <input style="flex-grow:1; color:white" bindinput="passwordInput" password="true" />
+      </view>
+    </view>
+    <view class="login-item bottom">
+      <button class="login-btn" bindtap="bindAccount">绑定</button>
+    </view>
+  </view>
+</view>

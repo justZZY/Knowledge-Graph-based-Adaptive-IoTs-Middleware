@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sewage.springboot.dao.LoginDao">
+    <select id="getUser" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+            username,
+            password,
+            salt,
+            delete_status,
+            identity,
+            area,
+            phone,
+            mail
+        FROM
+            user u, permission p
+        WHERE u.username = #{username} and u.pid = p.pid
+    </select>
+</mapper>

@@ -1,0 +1,14 @@
+0   root
+1   plc
+2   gateway
+3   baud_rate
+4   unit
+5   addr
+6   temperature
+7   liquid_level
+8   pH
+9   gram
+10   carbon_monoxide
+11   hall_current
+12   humidity
+13   TDS

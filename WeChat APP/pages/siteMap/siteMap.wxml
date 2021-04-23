@@ -1,0 +1,71 @@
+<view class="page">
+    <view wx:if="{{addListShow}}">
+        <view class="top">
+            <cover-view class="back" bindtap="back1">
+                <cover-image src="../../images/back.png"></cover-image>
+            </cover-view>
+            <view class="search-box {{addListShow?'search-box1':''}}">
+                <view class="shu" ></view>
+                <input placeholder="请输入站点名称" bindinput="getsuggest"></input>
+            </view>
+        </view>
+        <!--关键词输入提示列表渲染-->
+        <view class="add-list-box">
+            <scroll-view class="add-list" scroll-y>
+                <view class="add-item" wx:for="{{suggestion}}" wx:key="index">
+                <!--绑定回填事件-->
+                    <view bindtap="backmap" id="{{item.id}}" data-name="{{item.title}}">
+                    <!--根据需求渲染相应数据-->
+                    <!--渲染地址title-->
+                    <view class="title">{{item.title}}</view>
+                    <!--渲染详细地址-->
+                    <view class="add">{{item.address}}</view>
+                    </view>
+                </view>
+            </scroll-view>
+        </view>
+    </view>
+    <view wx:if="{{!addListShow}}">
+    <map id='map' 
+        longitude="{{longitude}}" 
+        latitude="{{latitude}}" 
+        markers="{{markers}}" 
+        show-location
+        subkey="DBVBZ-RR334-SIWUZ-DWJE4-GTTNZ-FEBQU"
+        layer-style="1"
+        bindmarkertap="gotoThis"
+        show-compass = false
+        scale = "{{scale}}" 
+    >
+        <cover-view slot="callout"></cover-view>
+        <cover-view class="top">
+
+            <cover-view style="text-align:center;margin-right:20rpx" class="search-box">
+                <cover-view style="width:85%;" class="placeholder" bindtap="showAddList">请输入站点名称</cover-view>
+                <cover-image style="width:65rpx;height:65rpx;margin-top:8rpx;margin-right:10rpx;float:right" src='/images/user.png' bindtap='clickUserIcon' ></cover-image>
+            </cover-view>
+        </cover-view>
+    </map>
+    </view>
+
+
+    <!-- 点击用户icon显示的modal -->
+    <modal class="modal" wx:if="{{modalVisible}}" confirm-text="退出" bindconfirm="modalConfirm" no-cancel bindcancel="modalCancel"data-backdrop="static">
+
+        <view class="row">
+            <view class="row" style="width:50%;text-align;center;align-item:center">
+                <image style="width:160rpx;height:160rpx;" src='/images/user.png' bindtap='clickUserIcon' ></image>
+            </view>
+            
+            <view style="width:50%;height:200rpx" class="col">
+                <text style="font-size: 60rpx;font-weight: bold;color:DimGray">{{user.name}}</text>
+                <text style="font-size: 30rpx;color:Grey; margin-top:20rpx">{{user.phone}}</text>
+                <text style="font-size: 30rpx;color:Grey">{{user.mail}}</text>
+            </view>
+        </view>
+        
+
+    </modal>
+
+
+</view>

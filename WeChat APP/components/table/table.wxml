@@ -1,0 +1,19 @@
+<!--components/table/table.wxml-->
+<view class="table-outer-box">
+  <view class="table table-theme table-flex" style="border-top:1rpx solid #000;">
+    <view class="item" wx:for="{{tableThemes}}" wx:key="{{index}}">{{item}}</view>
+  </view>
+  <scroll-view class="scroll-view flex-column" scroll-y="true" bindscrolltolower="loadMore">
+    <view class="table table-item table-flex" wx:for="{{tableItems}}" wx:key="{{tableItemIndex}}" wx:for-item='tableItem'>
+      
+      <view class="item" wx:for="{{tableItem}}" wx:key="{{index}}">{{item}}</view>
+      <!-- <view wx:for="{{item}}" wx:key="{{index}}">
+        <view wx:else class="item" wx:for="{{item}}" wx:key="{{index}}">{{item}}</view>
+      </view> -->
+      <!-- <view wx:for="{{tableItem}}" wx:key="{{itemIndex}}">
+        <view wx:if="{{itemIndex === tableItem.Length-1}}" class="item" style="color:#000">{{item}}</view>
+        <view wx:else class="item">{{item}}</view>
+      </view> -->
+    </view>
+  </scroll-view>
+</view>

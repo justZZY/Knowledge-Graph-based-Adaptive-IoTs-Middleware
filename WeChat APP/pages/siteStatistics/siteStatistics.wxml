@@ -1,0 +1,226 @@
+<!--pages/siteStatistics/siteStatistics.wxml-->
+
+<view class='content'>
+
+  <view class="card">
+   <text class="title">工艺展示</text>
+   <image src="http://182.254.148.104:8083/pic/%E5%B7%A5%E8%89%BA.png" bindtap="preview" mode="aspectFit"></image>
+   <text class="state" style="white-space:pre-wrap">　　中贸环境采用改良A2/O-载体固化微生物发酵技术和生物膜法相结合的工艺路线，能够实现生活污水的高效生物脱氮除磷。针对农村生活污水C/N低问题，采用两级厌氧分段进水设计，实现生物除磷的最优化。
+   </text>
+  </view>
+
+  <view style="height:10px"></view>
+
+  <view class="card">
+    <view class="monitor">
+      <text class="title">站点监控</text>
+      <button class="mini-btn" bindtap="bindAdd" type="primary" size="mini">添加</button>
+    </view>
+
+
+
+    <view style="height:10px"></view>
+
+    <view wx:if="{{ShowList && !ShowEdit &&!ShowDelete && has_video}}">
+      <view class="list">
+        <view class="list-item" wx:for='{{monitor_data}}' wx:for-item='monitor'>
+          <text class="name">{{monitor.name}}</text>
+          <view class="bindList">
+            <button bindtap="bindPlay" id="{{monitor.id}}" type="primary"
+              style="width:45vw;margin:0rpx 10rpx 0 0;">播放</button>
+            <button bindtap="bindEdit" id="{{monitor.id}}" type="primary" plain="true"
+              style="width:45vw;margin:0rpx 10rpx 0 10rpx;">修改</button>
+            <button bindtap="bindDelete" id="{{monitor.id}}" type="warning" plain="true"
+              style="width:45vw;margin:0rpx 0rpx 0 10rpx;">删除</button>
+          </view>
+        </view>
+      </view>
+    </view>
+
+
+    <block wx:if="{{ShowEdit}}">
+      <!-- <view class='toast-box'>
+        <view class='toastbg'></view>
+        <view class='showToast'> -->
+          <view class='toast-title'>
+            <text>修改监控 {{editName}} 信息</text>
+          </view>
+          <view class='toast-main'>
+            <view class='toast-input'>
+              <input type='text' value='{{editName}}' placeholder='请输入监控名称' bindinput='setName' data-name='monitor_name'></input>
+            </view>
+            <view class='toast-input'>
+              <input type='text' value='{{editURL}}' placeholder='请输入监控url' bindinput='setUrl' data-name='monitor_url'></input>
+            </view>
+          </view>
+          <view class='toast-button'>
+            <!-- <view class='button1' style = "width: 30%;"> -->
+            <button bindtap='cancelEdit'
+              type = "default" style="width:40vw;margin-left: 0;">取消</button>
+            <!-- </view> -->
+            <!-- <view class='button2'> -->
+            <button bindtap='confirmEdit'
+            type = "primary" style="width:40vw;margin-right: 0;">确定</button>
+            <!-- </view> -->
+          </view>
+        <!-- </view>
+      </view> -->
+    </block>
+
+
+    <block wx:if="{{ShowDelete}}">
+      <!-- <view class='toast-box'>
+        <view class='toastbg'></view>
+        <view class='showToast'> -->
+          <view class='toast-title'>
+            <text>删除监控</text>
+          </view>
+          <view class='toast-main'>
+            <view class="title">确认删除监控"{{editName}}"？</view>
+          </view>
+          <view class='toast-button'>
+            <!-- <view class='button1' style = "width: 30%;"> -->
+            <button bindtap='cancelDelete'
+            type = "default" style="width:40vw;margin-left: 0;">取消</button>
+            <!-- </view> -->
+            <!-- <view class='button2'> -->
+            <button bindtap='confirmDelete'
+            type = "primary" style="width:40vw;margin-right: 0;">确定</button>
+            <!-- </view> -->
+          </view>
+        <!-- </view>
+      </view> -->
+    </block>
+
+
+    <view wx:if="{{has_video && !ShowList}}">
+      <view class="list-item" wx:for='{{monitor_data}}' wx:for-item='monitor'>
+        <video class="video" id="myVideo" src="{{monitor.url}}" binderror="videoErrorCallback"></video>
+        <button bindtap="bindClose" id="{{monitor.id}}" class="play-body-button" type="default" plain="true" style="width:100%">关闭</button>
+      </view>
+    </view>
+
+    <view wx:if="{{!has_video}}">
+      <view style="height:40px"></view>
+      <text class="warning">监控空缺</text>
+      <view style="height:40px"></view>
+    </view>
+
+  </view>
+
+  <!-- 间隔 -->
+  <view style="height:10px"></view>
+
+  <view class="card">
+    <text class="title">实时数据</text>
+
+    <!-- <view wx:if="{{is_online && has_equip &&!need_reload}}"> -->
+      <table tableThemes="{{realTimeDataThemeArr}}" tableItems="{{realTimeDataItemArr}}"></table>
+    <!-- </view>
+    <view wx:if="{{!has_equip && !need_reload}}">
+      <view style="height:40px"></view>
+      <text class="warning">设备空缺</text>
+      <view style="height:40px"></view>
+    </view>
+
+    <view wx:if="{{has_equip && !is_online && !need_reload}}">
+      <view style="height:40px"></view>
+      <text class="warning">设备离线</text>
+      <view style="height:40px"></view>
+    </view>
+
+    <view wx:if="{{need_reload}}">
+      <view style="height:40px"></view>
+      <text class="warning">请重新登录</text>
+      <view style="height:40px"></view>
+    </view> -->
+    
+  </view>
+
+  <!-- 间隔 -->
+  <view style="height:10px"></view>
+
+  <view class="card">
+    <text class="title">数据监测</text>
+
+    <!-- <view wx:if="{{is_online && has_equip &&!need_reload}}"> -->
+      <view class='echartsLineView'>
+        <ec-canvas id="mychart-line" canvas-id="mychart-line" ec="{{ ecLine }}"></ec-canvas>
+      </view> 
+    <!-- </view> -->
+
+    <!-- <view wx:if="{{!has_equip && !need_reload}}">
+      <view style="height:40px"></view>
+      <text class="warning">设备空缺</text>
+      <view style="height:40px"></view>
+    </view>
+
+    <view wx:if="{{has_equip && !is_online && !need_reload}}">
+      <view style="height:40px"></view>
+      <text class="warning">设备离线</text>
+      <view style="height:40px"></view>
+    </view>
+
+    <view wx:if="{{need_reload}}">
+      <view style="height:40px"></view>
+      <text class="warning">请重新登录</text>
+      <view style="height:40px"></view>
+    </view> -->
+  </view>
+
+
+
+  <!-- 间隔 -->
+  <view style="height:10px"></view>
+
+
+  <view class="card">
+    <text class="title">数据统计</text>
+
+    <view class="pageSpace">
+      <!--表格2-->
+      <!-- <view class="divLine"></view> -->
+      <view class="table ">
+        <view class="tr thColor">
+          <view class="th">类型</view>
+          <view class="th ">数值</view>
+          <!-- <view class="th ">表头3</view> -->
+        </view>
+        <!-- <view class="table-wrap"> -->
+          <block wx:for="{{listData}}" wx:key="{{code}}">
+            <view class="tr" wx:if="{{index%2==0}}">
+              <view class="td">{{item.col1}}</view>
+              <view class="td">{{item.col2}}</view>
+              <!-- <view class="td">{{item.col3}}</view> -->
+            </view>
+            <view class="tr tdColor" wx:else>
+              <view class="td">{{item.col1}}</view>
+              <view class="td">{{item.col2}}</view>
+              <!-- <view class="td">{{item.col3}}</view> -->
+            </view>
+          </block>
+        <!-- </view> -->
+      </view>
+    </view>
+  </view>
+  <view style="height:10px"></view>
+  <view class="card">
+    <text class="title">站点预览</text>
+    <view class='pageBox pageTwo'>
+      <swiper class='swiperClass' autoplay indicator-color="#a39f99" indicator-active-color="#f49641" indicator-dots
+        interval="5000" duration="1000" previous-margin="60px" next-margin="60px" circular bindchange="bindchange"
+        style='height: {{swiperHeight}}px'>
+        <block wx:for="{{group}}" wx:for-item='item'>
+          <swiper-item>
+            <image src="{{item.src}}" class="slide-image {{swiperIdx == index ? 'active' : 'quiet'}}" mode='aspectFill'>
+            </image>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+  </view>
+
+  <!-- <view style="height:10px"></view> -->
+
+
+</view>

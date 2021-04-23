@@ -1,0 +1,76 @@
+/* pages/bindAccount/bindAccount.wxss */
+
+.background {
+  width: 100%;
+  height: 100%;
+  position: fixed; 
+  background-size:100% 100%;
+  z-index: -1;
+}
+
+.item{
+  flex-grow:1;
+  height: 30%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 90%;
+  padding: 45% 5% 5%;
+  /* margin-top: 30%; */
+}
+
+.login-item{
+  width: 90%;
+  margin-top: 30rpx;
+  border-bottom: 2px solid #fff;
+  flex-grow:1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 20rpx;
+}
+
+.bottom{
+   border-bottom: 0px;
+}
+
+.login-item-info{
+  /* font-style: italic; */
+  font-size: large;
+  font-weight: lighter;
+  color: #fff;
+  font-weight: bold;
+  padding-bottom: 20rpx;
+}
+
+.login-pwd{
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  align-items: center;
+
+}
+
+.login-pwd text{
+  height: 100%;
+  font-size: 14px;
+  color: #fff;
+  display: flex;
+
+}
+.login-btn{
+  width: 100%;
+  color: #fff;
+  background-color: #04BE02 ;
+  border-radius: 0;
+  font-size: 14px;
+
+}
+
+.login-btn:hover{
+  width: 100%;
+  color: white;
+  border-radius: 0;
+}

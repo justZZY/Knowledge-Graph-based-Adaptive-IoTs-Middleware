@@ -1,0 +1,66 @@
+
+<!-- <view class='outContent'>
+  <text style="font-size: large; font-weight: bold;">设备控制</text>
+</view> -->
+
+<!-- <view class = 'allcontent'> -->
+<view wx:if="{{has_equip}}">
+<view style="height:10px"></view>
+<view class="block">
+  <view class='outContent'>
+    <text style="font-size: large; font-weight: bold;">工艺展示</text>
+  </view>
+  <image src="http://182.254.148.104:8083/pic/%E5%B7%A5%E8%89%BA.png" bindtap="preview" mode="aspectFit"></image>
+</view>
+<view style="height:10px"></view>
+<view class="block">
+<view class='outContent'>
+  <text style="font-size: large; font-weight: bold;">设备控制</text>
+</view>
+<view class="content">
+  <view wx:for='{{devicedata}}' wx:for-item='equip' wx:for-index='index' class="card">
+    <view class="head">
+      <text class="txt">{{equip.name}}</text>
+      <view wx:if ="{{equip.errorFeedback === '正常'}}">
+        <view wx:if="{{equip.runFeedback === '停止'}}">
+          <tag class="demo-margin-right" type="primary">停止</tag>
+        </view>
+        <view wx:if="{{equip.runFeedback === '运行'}}">
+          <tag class="demo-margin-right" type="success">运行</tag>
+        </view>
+      </view>
+      <view wx:else>
+        <tag class="demo-margin-right" type="danger">故障</tag>
+      </view>
+
+    </view>
+      <i-cell title="启/停">
+        <i-switch disabled="{{equip.maSwitch?'true':''}}" data-equip='{{equip}}' data-name='启动/停止' data-idx='{{index}}' value="{{equip.runFeedback === '运行'? true : false}}" size="large" bind:change="startOrStopEquip" slot="footer">
+          <view slot="open">开启</view>
+          <view slot="close">关闭</view>
+        </i-switch>
+      </i-cell>
+      <i-cell title="自/手">
+        <i-switch data-equip='{{equip}}' data-name='自/手动' data-idx='{{index}}' value="{{equip.maSwitch}}" size="large" bind:change="autoChange" slot="footer">
+          <view slot="open">自动</view>
+          <view slot="close">手动</view>
+        </i-switch>
+      </i-cell>
+  </view>
+</view>
+
+</view>
+<view style="height:10px"></view>
+</view>
+<!-- </view> -->
+
+<view wx:if="{{!has_equip}}">
+    <view style="height:200px"></view>
+    <text class="warning">设备离线</text>
+</view>
+
+<view wx:if="{{need_reload}}">
+    <view style="height:200px"></view>
+    <text class="warning">请重新登录</text>
+</view>
+

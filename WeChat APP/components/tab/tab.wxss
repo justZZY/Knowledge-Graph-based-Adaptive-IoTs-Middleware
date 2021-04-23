@@ -1,0 +1,38 @@
+/* components/tab/tab.wxss */
+
+
+.tab {
+  float: left;
+  width: 25%;
+  text-align: center;
+  padding: 10rpx 0;
+}
+ 
+/* 导航栏整体样式 */
+.bottomTabSwiper {
+  background-color: #fff;
+  width: 100%;
+  text-align: center;
+  line-height: 100rpx;
+  position: fixed;
+  bottom:0px;
+}
+ 
+.bottomTabSwiper:after {
+  background-color: #000;
+  content: "";
+  clear: both;
+  display: block;
+}
+
+/* 选中样式 */
+.on {
+  color: white;
+  background-color: orange;
+}
+
+ 
+.swiper swiper-item {
+  text-align: center;
+  margin-bottom: 50rpx;
+}
