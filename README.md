@@ -39,9 +39,9 @@ The data set consists of 8 different types of sensors including thermometer, lev
 ![Dataset](http://43.228.77.195:8083/pic/paper/en/dataset.png)
 
 ## Baseline Comparison
-TT represents the training time. PT indicates predicting time. $F_1$, P, and R represent $F_1$ score, recall and precision relatively. ACC stands for accuracy of sensor discovery. The proposed method achieves highest $F_1$ score (0.866) and ACC (0.875) for non-smart sensor discovery. 
+TT represents the training time. PT indicates predicting time. ![](http://latex.codecogs.com/svg.latex?F_1), P, and R represent ![](http://latex.codecogs.com/svg.latex?F_1) score, recall and precision relatively. ACC stands for accuracy of sensor discovery. The proposed method achieves highest ![](http://latex.codecogs.com/svg.latex?F_1) score (0.866) and ACC (0.875) for non-smart sensor discovery. 
 The drawback of the proposed method is the higher time cost (TT is 48.82ms and PT is 49.93ms) for the discovery process.
-However, in practice, the sensor data acquiring process normally takes 4$\sim$5 minutes to collect enough data value for predicting. Thus, $\sim$50ms time costs for the sensor predicting do not really affect the performance.
+However, in practice, the sensor data acquiring process normally takes 4~5 minutes to collect enough data value for predicting. Thus, ~50ms time costs for the sensor predicting do not really affect the performance.
 
 ![Result](http://43.228.77.195:8083/pic/paper/en/result.png)
 
