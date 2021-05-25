@@ -26,7 +26,7 @@ As shown in following fig, the main processes of the proposed method are divided
 
 ## Discovery Process
 
-[The evaluation process video](http://43.228.77.195:8083/vueDataV/#/datav)
+[The evaluation process video](http://43.228.77.195:8083/pic/paper/en/discovery_video.mp4)
 
 Various sensor instances are plugged into the proposed middleware through the RS485 interface. Then, the middleware will actively scan addresses and acquire the data value from the plugged sensor. After, the sensor addresses and data values will be sent to the knowledge-data fused model to analyze and recognize the type of the sensor. If the sensor has the exactly matched pair in Sensor Knowledge Graph (SKG), the sensor is accessed by using the corresponding configurations from SKG. If the sensor is not matched in the current SKG, the corresponding knowledge will be established to form a new sensor by combing the predicted data points, addresses, data types and other information from the similar sensors in SKG.
 At last, the critical indexes, such as training time, predicting time, accuracy, Kappa score, etc., are recorded for the evaluation.
